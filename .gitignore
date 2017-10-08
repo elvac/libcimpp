@@ -1,6 +1,16 @@
-######################################################
-# FOR OSX
+# Products
+libCIMParser.a
 
+/*.csv
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+install_manifest.txt
+cmake_install.cmake
+Makefile
+
+# OS X
 .DS_Store
 .AppleDouble
 .LSOverride
