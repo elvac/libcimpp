@@ -3,6 +3,8 @@ cmake_minimum_required(VERSION 3.5)
 project(libcimpp CXX)
 set(CMAKE_CXX_STANDARD 11)
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
+
 add_subdirectory(thirdparty)
 
 set(libcimpp_MAJOR_VERSION 2)
@@ -98,3 +100,5 @@ if(DOXYGEN_FOUND)
   file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/README.md DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
   add_custom_target(doc ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} COMMENT "Generating API documentation with Doxygen" VERBATIM)
 endif(DOXYGEN_FOUND)
+
+include(CIMParserPackaging)
