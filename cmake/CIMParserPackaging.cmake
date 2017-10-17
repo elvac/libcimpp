@@ -7,7 +7,7 @@ set(CPACK_PACKAGE_VERSION_PATCH ${CIMParser_PATH_VERSION})
 
 set(CPACK_RPM_PACKAGE_RELEASE "1.${USE_CIM_VERSION}")
 set(CPACK_RPM_PACKAGE_LICENSE "MPL 2.0")
-set(CPACK_RPM_PACKAGE_URL "http://www.fein-aachen.org/projects/dpsim/")
+set(CPACK_RPM_PACKAGE_URL "http://www.fein-aachen.org/projects/cimpp/")
 set(CPACK_RPM_PACKAGE_REQUIRES "libxml2")
 set(CPACK_RPM_PACKAGE_GROUP "Development/Libraries")
 
