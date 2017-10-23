@@ -1,26 +1,36 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(libcimpp CXX)
+project(CIMpp CXX)
 set(CMAKE_CXX_STANDARD 11)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
 add_subdirectory(thirdparty)
 
-set(libcimpp_MAJOR_VERSION 2)
-set(libcimpp_MINOR_VERSION 1)
-set(libcimpp_VERSION ${libcimpp_MAJOR_VERSION}.${libcimpp_MINOR_VERSION})
+set(CIMPP_MAJOR_VERSION 2)
+set(CIMPP_MINOR_VERSION 1)
+set(CIMPP_PATCH_VERSION 0)
+set(CIMPP_VERSION ${CIMPP_MAJOR_VERSION}.${CIMPP_MINOR_VERSION}.${CIMPP_PATCH_VERSION})
 
 # Options
 option(BUILD_SHARED_LIBS "Build shared library" OFF)
 set(USE_CIM_VERSION "IEC61970_16v29a_IEC61968_12v08" CACHE STRING "Define CIM Version")
 message(STATUS "Building ${PROJECT_NAME} with USE_CIM_VERSION=${USE_CIM_VERSION}")
 
-file(GLOB_RECURSE SRC src/*.cpp)
+if(WIN32)
+    # By default DLLs do not export symbols
+    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+endif()
 
-add_library(${PROJECT_NAME} ${SRC})
-target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>)
-target_link_libraries(${PROJECT_NAME} PRIVATE arabica)
+file(GLOB_RECURSE SRC src/*.cpp)
+add_library(cimpp ${SRC})
+include_directories($<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>)
+
+find_package(Arabica REQUIRED)
+if(Arabica_FOUND)
+    link_libraries(${Arabica_LIBRARIES})
+    include_directories(${ARABICA_INCLUDE_DIRS})
+endif()
 
 # Select CIM version
 if(USE_CIM_VERSION STREQUAL "IEC61970_17v07")
@@ -95,10 +105,10 @@ install(DIRECTORY ${CIM_FOLDER}
 
 # Configure Doxyfile
 find_package(Doxygen)
-if(DOXYGEN_FOUND)
-  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxygen_Custom/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
+if(Doxygen_FOUND)
+  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
   file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/README.md DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
   add_custom_target(doc ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} COMMENT "Generating API documentation with Doxygen" VERBATIM)
-endif(DOXYGEN_FOUND)
+endif()
 
-include(CIMParserPackaging)
+include(CIMppPackaging)
