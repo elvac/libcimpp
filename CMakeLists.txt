@@ -23,8 +23,8 @@ include_directories($<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>)
 
 find_package(Arabica REQUIRED)
 if(Arabica_FOUND)
-    link_libraries(${Arabica_LIBRARIES})
-    include_directories(${ARABICA_INCLUDE_DIRS})
+    target_link_libraries(cimpp PUBLIC ${ARABICA_LIBRARIES})
+    target_include_directories(cimpp PUBLIC ${ARABICA_INCLUDE_DIRS})
 endif()
 
 # Select CIM version
