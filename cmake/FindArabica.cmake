@@ -1,19 +1,32 @@
-option(ARABICA_DIR "Location of Arabica library" ${CMAKE_CURRENT_SOURCE_DIR}/../Arabica)
+option(ARABICA_DIR "Arabica installation directory" ../Arabica)
 
-if(IS_DIRECTORY ${ARABICA_DIR})
-    set(ARABICA_INCLUDE_DIR ${ARABICA_DIR}/include)
-endif()
+file(TO_CMAKE_PATH $ENV{APPDATA} APPDATA)
 
-find_library(ARABICA_LIBRARY NAMES arabica libarabica
-        HINTS ${ARABICA_DIR} ${ARABICA_DIR}/cmake-build-debug)
+find_path(ARABICA_INCLUDE_DIR
+	NAMES arabica/SAX/ArabicaConfig.hpp
+	PATH_SUFFIXES include
+	HINTS
+		../Arabica
+		${APPDATA}/Arabica
+		${ARABICA_DIR}
+)
+
+find_library(ARABICA_LIBRARY
+    NAMES arabica
+	PATH_SUFFIXES
+		bin
+		lib/static
+    HINTS
+		../Libraries/Arabica
+		${APPDATA}/Arabica
+		${ARABICA_DIR}
+)
 
 include(FindPackageHandleStandardArgs)
 # handle the QUIETLY and REQUIRED arguments and set ARABICA_FOUND to TRUE
 # if all listed variables are TRUE
-find_package_handle_standard_args(Arabica DEFAULT_MSG
-        ARABICA_LIBRARY ARABICA_INCLUDE_DIR)
-
+find_package_handle_standard_args(Arabica DEFAULT_MSG ARABICA_LIBRARY ARABICA_INCLUDE_DIR)
 mark_as_advanced(ARABICA_INCLUDE_DIR ARABICA_LIBRARY)
 
 set(ARABICA_LIBRARIES ${ARABICA_LIBRARY})
-set(ARABICA_INCLUDE_DIRS ${ARABICA_INCLUDE_DIR} ${ARABICA_DIR}/cmake-build-debug/include)
+set(ARABICA_INCLUDE_DIRS ${ARABICA_INCLUDE_DIR} ${ARABICA_INCLUDE_DIR}/arabica)

@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.5)
 
 project(CIMpp CXX)
+
+# Enable C++11 support
 set(CMAKE_CXX_STANDARD 11)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
@@ -80,7 +82,7 @@ if(WIN32)
 
     file(TO_CMAKE_PATH $ENV{APPDATA}/${PROJECT_NAME} PREFIX)
     set(CMAKE_INSTALL_PREFIX ${PREFIX})
-    endif()
+ endif()
 
 foreach(FILE assignment_alias.csv task_alias.csv)
     install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/${CIM_FOLDER}/${FILE}
