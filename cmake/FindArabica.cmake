@@ -1,6 +1,8 @@
 option(ARABICA_DIR "Arabica installation directory" ../Arabica)
 
-file(TO_CMAKE_PATH $ENV{APPDATA} APPDATA)
+if(WIN32)
+	file(TO_CMAKE_PATH $ENV{APPDATA} APPDATA)
+endif()
 
 find_path(ARABICA_INCLUDE_DIR
 	NAMES arabica/SAX/ArabicaConfig.hpp
