@@ -17,17 +17,6 @@ set(CIMPP_VERSION ${CIMPP_MAJOR_VERSION}.${CIMPP_MINOR_VERSION}.${CIMPP_PATCH_VE
 # Options
 option(BUILD_SHARED_LIBS "Build shared library" OFF)
 set(USE_CIM_VERSION "IEC61970_16v29a" CACHE STRING "Define CIM Version")
-message(STATUS "Building ${PROJECT_NAME} with USE_CIM_VERSION=${USE_CIM_VERSION}")
-
-file(GLOB_RECURSE SRC src/*.cpp)
-add_library(cimpp ${SRC})
-include_directories($<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>)
-
-find_package(Arabica REQUIRED)
-if(Arabica_FOUND)
-    target_link_libraries(cimpp PUBLIC ${ARABICA_LIBRARIES})
-    target_include_directories(cimpp PUBLIC ${ARABICA_INCLUDE_DIRS})
-endif()
 
 # Select CIM version
 if(USE_CIM_VERSION STREQUAL "IEC61970_17v07")
@@ -113,14 +102,15 @@ install(DIRECTORY ${CIM_FOLDER}
 # Configure Doxyfile
 find_package(Doxygen)
 if(Doxygen_FOUND)
-  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
-  file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/README.md DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-  add_custom_target(doc ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} COMMENT "Generating API documentation with Doxygen" VERBATIM)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
+    file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/README.md DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+    add_custom_target(doc ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} COMMENT "Generating API documentation with Doxygen" VERBATIM)
 endif()
 
 # Show feature summary
 include(FeatureSummary)
 feature_summary(WHAT ALL VAR enabledFeaturesText)
 message(STATUS "${enabledFeaturesText}")
+message(STATUS "Building CIMpp with USE_CIM_VERSION=${USE_CIM_VERSION}")
 
 include(CIMppPackaging)
