@@ -2,6 +2,8 @@ option(ARABICA_DIR "Arabica installation directory" ../Arabica)
 
 if(WIN32)
 	file(TO_CMAKE_PATH $ENV{APPDATA} APPDATA)
+else()
+	find_package(LibXml2 REQUIRED)
 endif()
 
 find_path(ARABICA_INCLUDE_DIR
@@ -30,5 +32,5 @@ include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(Arabica DEFAULT_MSG ARABICA_LIBRARY ARABICA_INCLUDE_DIR)
 mark_as_advanced(ARABICA_INCLUDE_DIR ARABICA_LIBRARY)
 
-set(ARABICA_LIBRARIES ${ARABICA_LIBRARY})
-set(ARABICA_INCLUDE_DIRS ${ARABICA_INCLUDE_DIR} ${ARABICA_INCLUDE_DIR}/arabica)
+set(ARABICA_LIBRARIES ${ARABICA_LIBRARY} ${LIBXML2_LIBRARY})
+set(ARABICA_INCLUDE_DIRS ${ARABICA_INCLUDE_DIR} ${ARABICA_INCLUDE_DIR}/arabica ${LIBXML2_INCLUDE_DIR})
