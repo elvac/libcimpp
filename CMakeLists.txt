@@ -8,6 +8,7 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
 add_subdirectory(thirdparty)
+add_subdirectory(doc)
 
 set(CIMPP_MAJOR_VERSION 2)
 set(CIMPP_MINOR_VERSION 1)
@@ -98,14 +99,6 @@ install(DIRECTORY ${CIM_FOLDER}
         PATTERN "*.h"
         PATTERN "*.hpp"
 )
-
-# Configure Doxyfile
-find_package(Doxygen)
-if(Doxygen_FOUND)
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
-    file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/README.md DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-    add_custom_target(doc ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} COMMENT "Generating API documentation with Doxygen" VERBATIM)
-endif()
 
 # Show feature summary
 include(FeatureSummary)
