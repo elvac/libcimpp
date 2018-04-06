@@ -58,12 +58,6 @@ endif()
 
 include(GNUInstallDirs)
 
-foreach(FILE assignment_alias.csv task_alias.csv)
-    install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/${CIM_FOLDER}/${FILE}
-        DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/cimpp/${CIM_FOLDER}
-    )
-endforeach(FILE)
-
 install(TARGETS cimpp
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
